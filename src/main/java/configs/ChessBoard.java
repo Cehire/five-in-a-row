@@ -26,7 +26,8 @@ public class ChessBoard extends JFrame implements Config {
 
     public static void main(String[] args) {
         ChessBoard chessBoard = new ChessBoard();
-        chessBoard.addMouseListener(new ChessListener(chessBoard.getGraphics()));
+        chessBoard.addMouseListener(new ChessListener(chessBoard.getGraphics(),chessBoard));
+
 
     }
 }
