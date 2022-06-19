@@ -43,10 +43,7 @@ public class ChessListener implements MouseListener, Config {
     public void mousePressed(MouseEvent e) {
         if(isStart){
             if(AIsTurn&&isAI){//是人机对战且轮到ai下棋
-
-
-
-
+                gameTree(chessOnBoard);
             }else {
                 x = e.getX();
                 y = e.getY();
@@ -188,12 +185,21 @@ public class ChessListener implements MouseListener, Config {
         }
         return count;
     }
+
     void clear() { //矩阵元素清零
         for (int i = 0; i < LINES; i++) {
             for (int j = 0; j < LINES; j++) {
                 chessOnBoard[i][j] = 0;
             }
         }
+    }
+
+    void gameTree(int[][] chessOnBoard){//实现博弈树算法
+            //chessOnBoard传入当前棋盘局面，使用博弈树，极大极小搜索和a-b剪枝
+        //第一层有15*15=225种情况
+        //注：当前棋盘有某个范围，超出这个范围之后下的棋的估值函数明显降低，通过分析我们可以设为周围2格没有棋子
+        //第二层有225*225 = 很多种情况，同样的也有第一层时候的边界效应
+        //采用
     }
 
 
