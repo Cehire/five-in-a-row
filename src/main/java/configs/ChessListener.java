@@ -12,6 +12,7 @@ public class ChessListener implements MouseListener, Config {
     int x;
     int y;
     int flag = 1; //判断棋子颜色
+    boolean canBack = false;
 
     public ChessListener(Graphics g, ChessBoard chessBoard) {
         this.g = g;
@@ -37,7 +38,6 @@ public class ChessListener implements MouseListener, Config {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
         x = e.getX();
         y = e.getY();
         //对鼠标的位置进行校正
@@ -73,7 +73,8 @@ public class ChessListener implements MouseListener, Config {
             flag = 1;
         }
         chessOnBoard[row][col] = flag;
-
+        canBack = true;//下完之后就可以悔棋了
+        //画完之后row和col存储本次下棋的信息，悔棋时可以直接调用
 
     }
 
@@ -92,11 +93,7 @@ public class ChessListener implements MouseListener, Config {
         }
     }
     private boolean ifWin() {
-        if (win1(row, col) >= 5 || win2(row, col) >= 5 || win3(row, col) >= 5 || win4(row, col) >= 5) {
-            return true;
-        }
-        else
-            return false;
+        return win1(row, col) >= 5 || win2(row, col) >= 5 || win3(row, col) >= 5 || win4(row, col) >= 5;
     }
 
     private int win1(int x, int y) {//横向判断输赢
