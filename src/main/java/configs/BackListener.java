@@ -8,7 +8,7 @@ public class BackListener implements ActionListener {
     public ChessListener chessListener;//获取鼠标监听器
     @Override
     public void actionPerformed(ActionEvent e) {//按下了悔棋按钮
-        if (chessListener.canBack){
+        if (chessListener.canBack&&chessListener.isStart){
             //执行悔棋，监听器中记录的上一次值归0，同时变为另一方下棋
             chessListener.chessOnBoard[chessListener.row][chessListener.col] = 0;
             chessListener.flag = chessListener.flag==1?2:1;

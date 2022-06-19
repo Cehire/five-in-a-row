@@ -32,9 +32,19 @@ public class ChessBoard extends JFrame implements Config {
         backListener.chessListener = chessListener;
         backListener.chessBoard = this;
         back.addActionListener(backListener);
+
+        JButton start = new JButton("开始/重开");
+        StartListener startListener = new StartListener();
+        startListener.chessBoard = this;
+        startListener.chessListener = chessListener;
+        start.addActionListener(startListener);
+
         this.setLayout(null);
         this.add(back);
-        back.setBounds(800, 100, 150, 40);
+        this.add(start);
+        back.setBounds(800, 200, 150, 40);
+        start.setBounds(800, 100, 150, 40);
+
 
     }
 
