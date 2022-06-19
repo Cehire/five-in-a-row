@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 
 public class ChessListener implements MouseListener, Config {
 
+    boolean isAI = false;
+    boolean AIsTurn = false;
     boolean isStart = false;
     public Graphics g = null;//接收组件的graphics
     public ChessBoard chessBoard;
@@ -40,45 +42,55 @@ public class ChessListener implements MouseListener, Config {
     @Override
     public void mousePressed(MouseEvent e) {
         if(isStart){
-            x = e.getX();
-            y = e.getY();
-            //对鼠标的位置进行校正
-            if (x % SIZE < SIZE / 2 && y % SIZE < SIZE / 2) {
-                x -= x % SIZE;
-                y -= y % SIZE;
-            } else if (x % SIZE >= SIZE / 2 && y % SIZE >= SIZE / 2) {
-                x = x - x % SIZE + SIZE;
-                y = y - y % SIZE + SIZE;
-            } else if (x % SIZE >= SIZE / 2 && y % SIZE < SIZE / 2) {
-                x = x - x % SIZE + SIZE;
-                y -= y % SIZE;
-            } else if (x % SIZE < SIZE / 2 && y % SIZE >= SIZE / 2) {
-                x -= x % SIZE;
-                y = y - y % SIZE + SIZE;
-            }
-            if ((x > X1 + SIZE * (LINES - 1) || y > Y1 + SIZE * (LINES - 1))) {
-                return;//提前结束监听事件
-            }
-            //校正完毕，判断校正后的棋盘是否有子存在，若有直接返回监听事件
-            row = x / SIZE - 1;
-            col = y / SIZE - 1;
-            if (chessOnBoard[row][col] != 0) {
-                return;
-            }
-            if (flag == 1) {
-                g.setColor(Color.black);                        //设置图形颜色为黑色
-                g.fillOval(x - CHESS_SIZE / 2, y - CHESS_SIZE / 2, CHESS_SIZE, CHESS_SIZE); //以(x,y)为圆心,CHESS(30px)为直径画圆
-                flag = 2;
-                canBack = true;//下完之后就可以悔棋了
-            } else if (flag == 2) {
-                g.setColor(Color.white);                        //设置图形颜色为白色
-                g.fillOval(x - CHESS_SIZE / 2, y - CHESS_SIZE / 2, CHESS_SIZE, CHESS_SIZE); //以(x,y)为圆心,CHESS(30px)为直径画圆
-                flag = 1;
-                canBack = true;//下完之后就可以悔棋了
-            }
-            chessOnBoard[row][col] = flag==2?1:2;
+            if(AIsTurn&&isAI){//是人机对战且轮到ai下棋
 
-            //画完之后row和col存储本次下棋的信息，悔棋时可以直接调用
+
+
+
+            }else {
+                x = e.getX();
+                y = e.getY();
+                //对鼠标的位置进行校正
+                if (x % SIZE < SIZE / 2 && y % SIZE < SIZE / 2) {
+                    x -= x % SIZE;
+                    y -= y % SIZE;
+                } else if (x % SIZE >= SIZE / 2 && y % SIZE >= SIZE / 2) {
+                    x = x - x % SIZE + SIZE;
+                    y = y - y % SIZE + SIZE;
+                } else if (x % SIZE >= SIZE / 2 && y % SIZE < SIZE / 2) {
+                    x = x - x % SIZE + SIZE;
+                    y -= y % SIZE;
+                } else if (x % SIZE < SIZE / 2 && y % SIZE >= SIZE / 2) {
+                    x -= x % SIZE;
+                    y = y - y % SIZE + SIZE;
+                }
+                if ((x > X1 + SIZE * (LINES - 1) || y > Y1 + SIZE * (LINES - 1))) {
+                    return;//提前结束监听事件
+                }
+                //校正完毕，判断校正后的棋盘是否有子存在，若有直接返回监听事件
+                row = x / SIZE - 1;
+                col = y / SIZE - 1;
+                if (chessOnBoard[row][col] != 0) {
+                    return;
+                }
+                if (flag == 1) {
+                    g.setColor(Color.black);                        //设置图形颜色为黑色
+                    g.fillOval(x - CHESS_SIZE / 2, y - CHESS_SIZE / 2, CHESS_SIZE, CHESS_SIZE); //以(x,y)为圆心,CHESS(30px)为直径画圆
+                    flag = 2;
+                    canBack = true;//下完之后就可以悔棋了
+                    AIsTurn = true;
+                } else if (flag == 2) {
+                    g.setColor(Color.white);                        //设置图形颜色为白色
+                    g.fillOval(x - CHESS_SIZE / 2, y - CHESS_SIZE / 2, CHESS_SIZE, CHESS_SIZE); //以(x,y)为圆心,CHESS(30px)为直径画圆
+                    flag = 1;
+                    canBack = true;//下完之后就可以悔棋了
+                    AIsTurn = true;
+                }
+                chessOnBoard[row][col] = flag==2?1:2;
+
+                //画完之后row和col存储本次下棋的信息，悔棋时可以直接调用
+            }
+
         }
 
 
@@ -89,21 +101,14 @@ public class ChessListener implements MouseListener, Config {
         if (isStart){
             if(ifWin()) {
                 if (chessOnBoard[row][col] == 1) {
-                    JOptionPane.showConfirmDialog(null, "白方胜利", "游戏结束", JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPane.showConfirmDialog(null, "黑方胜利", "游戏结束", JOptionPane.OK_CANCEL_OPTION);
                 }
                 else {
-                    JOptionPane.showConfirmDialog(null, "黑方胜利", "游戏结束", JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPane.showConfirmDialog(null, "白方胜利", "游戏结束", JOptionPane.OK_CANCEL_OPTION);
                 }
                 isStart = false;
                 clear();
                 chessBoard.paint(g);
-            }
-
-            for (int i = 0; i < chessOnBoard.length; i++) {
-                for (int j = 0; j < chessOnBoard[0].length; j++) {
-                    System.out.print(chessOnBoard[i][j]);
-                }
-                System.out.println();
             }
         }
     }

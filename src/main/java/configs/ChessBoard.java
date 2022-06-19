@@ -59,10 +59,10 @@ public class ChessBoard extends JFrame implements Config {
         if (chessOnBoard!=null){
             for(int i = 0;i<LINES;i++) {              //重绘棋子,用于悔棋
                 for(int j = 0;j<LINES;j++) {
-                    if(chessOnBoard[i][j] == 2) {
+                    if(chessOnBoard[i][j] == 1) {
                         g.setColor(Color.black);
                         g.fillOval((i+1)*SIZE-CHESS_SIZE/2,(j+1)*SIZE-CHESS_SIZE/2, CHESS_SIZE, CHESS_SIZE);
-                    } else if(chessOnBoard[i][j] == 1) {
+                    } else if(chessOnBoard[i][j] == 2) {
                         g.setColor(Color.white);
                         g.fillOval((i+1)*SIZE-CHESS_SIZE/2,(j+1)*SIZE-CHESS_SIZE/2, CHESS_SIZE, CHESS_SIZE);
                     }
